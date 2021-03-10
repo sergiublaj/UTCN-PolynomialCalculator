@@ -2,6 +2,7 @@ package controller;
 
 import controller.listeners.*;
 import model.Model;
+import validator.ExceptionHandler;
 import view.PolynomPanel;
 import view.View;
 
@@ -28,11 +29,12 @@ public class Controller {
     }
 
     private void addOperationListeners() {
-        appView.addOperationListener(View.ADD_BTN, new AdditionListener(appModel, appView));
-        appView.addOperationListener(View.SUB_BTN, new SubtractionListener(appModel, appView));
-        appView.addOperationListener(View.MUL_BTN, new MultiplicationListener(appModel, appView));
-        appView.addOperationListener(View.DIV_BTN, new DivisionListener(appModel, appView));
-        appView.addOperationListener(View.DER_BTN, new DerivationListener(appModel, appView));
-        appView.addOperationListener(View.INT_BTN, new IntegrationListener(appModel, appView));
+        ExceptionHandler exHandler = new ExceptionHandler(appModel, appView);
+        appView.addOperationListener(View.ADD_BTN, new AdditionListener(appModel, appView, exHandler));
+        appView.addOperationListener(View.SUB_BTN, new SubtractionListener(appModel, appView, exHandler));
+        appView.addOperationListener(View.MUL_BTN, new MultiplicationListener(appModel, appView, exHandler));
+        appView.addOperationListener(View.DIV_BTN, new DivisionListener(appModel, appView, exHandler));
+        appView.addOperationListener(View.DER_BTN, new DerivationListener(appModel, appView, exHandler));
+        appView.addOperationListener(View.INT_BTN, new IntegrationListener(appModel, appView, exHandler));
     }
 }

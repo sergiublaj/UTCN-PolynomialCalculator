@@ -6,6 +6,8 @@ import view.View;
 // JUnit
 // Documentatie
 // de reorganizat codul duplicat
+// maxim 30 linii!!
+// Double si Integer monomial -> generic?
 //
 // BUGS
 // 5 * 8

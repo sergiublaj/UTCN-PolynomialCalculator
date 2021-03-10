@@ -3,6 +3,7 @@ package controller.listeners;
 import model.PolynomialInterpreter;
 import model.Model;
 import model.Polynomial;
+import validator.ExceptionHandler;
 import view.PolynomPanel;
 import view.View;
 
@@ -17,10 +18,12 @@ public class IntegrationListener implements ActionListener {
 
     private final Model appModel;
     private final View appView;
+    private final ExceptionHandler exHandler;
 
-    public IntegrationListener(Model appModel, View appView) {
+    public IntegrationListener(Model appModel, View appView, ExceptionHandler exHandler) {
         this.appModel = appModel;
         this.appView = appView;
+        this.exHandler = exHandler;
     }
 
     @Override
@@ -42,14 +45,8 @@ public class IntegrationListener implements ActionListener {
             appView.setTitleMessage(PolynomPanel.OUTPUT_POLYNOM, INTEGRATION_TITLE);
             appView.setInput(PolynomPanel.OUTPUT_POLYNOM, parsedOutput);
             appView.setAlertMessage(PolynomPanel.OUTPUT_POLYNOM, INTEGRATION_SUCCESS, Color.GREEN);
-        } catch (Exception polynomEx) {
-            appView.setAlertMessage(PolynomPanel.FIRST_POLYNOM, polynomEx.getMessage(), Color.RED);
-            appView.setAlertMessage(PolynomPanel.SECOND_POLYNOM, polynomEx.getMessage(), Color.RED);
-            appView.setAlertMessage(PolynomPanel.OUTPUT_POLYNOM, INTEGRATION_FAIL, Color.RED);
-            appView.setTitleMessage(PolynomPanel.OUTPUT_POLYNOM, View.OUTPUT_TITLE);
-            appView.setInput(PolynomPanel.OUTPUT_POLYNOM, "");
-            appModel.clearResultTerm();
-            appModel.clearRemainderTerm();
+        } catch (Exception polynomialEx) {
+            exHandler.catchException(polynomialEx.getMessage(), INTEGRATION_FAIL);
         }
     }
 }

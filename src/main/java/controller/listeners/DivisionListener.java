@@ -3,6 +3,7 @@ package controller.listeners;
 import model.PolynomialInterpreter;
 import model.Model;
 import model.Polynomial;
+import validator.ExceptionHandler;
 import view.PolynomPanel;
 import view.View;
 
@@ -17,10 +18,12 @@ public class DivisionListener implements ActionListener {
 
     private final Model appModel;
     private final View appView;
+    private final ExceptionHandler exHandler;
 
-    public DivisionListener(Model appModel, View appView) {
+    public DivisionListener(Model appModel, View appView, ExceptionHandler exHandler) {
         this.appModel = appModel;
         this.appView = appView;
+        this.exHandler = exHandler;
     }
 
     @Override
@@ -28,9 +31,11 @@ public class DivisionListener implements ActionListener {
         try {
             Polynomial firstPolynomial = PolynomialInterpreter.parseString(appView.getInput(PolynomPanel.FIRST_POLYNOM));
             Polynomial secondPolynomial = PolynomialInterpreter.parseString(appView.getInput(PolynomPanel.SECOND_POLYNOM));
+
             appModel.setFirstOperand(firstPolynomial);
             appModel.setSecondOperand(secondPolynomial);
             appModel.dividePolynomials();
+
             Polynomial firstOutput = appModel.getResultTerm();
             String firstParsed = PolynomialInterpreter.parseValue(firstOutput);
             Polynomial secondOutput = appModel.getRemainderTerm();
@@ -38,14 +43,8 @@ public class DivisionListener implements ActionListener {
             appView.setTitleMessage(PolynomPanel.OUTPUT_POLYNOM, DIVISION_TITLE);
             appView.setInput(PolynomPanel.OUTPUT_POLYNOM, firstParsed + " (R: " + secondParsed + ")");
             appView.setAlertMessage(PolynomPanel.OUTPUT_POLYNOM, DIVISION_SUCCESS, Color.GREEN);
-        } catch (Exception polynomEx) {
-            appView.setAlertMessage(PolynomPanel.FIRST_POLYNOM, polynomEx.getMessage(), Color.RED);
-            appView.setAlertMessage(PolynomPanel.SECOND_POLYNOM, polynomEx.getMessage(), Color.RED);
-            appView.setAlertMessage(PolynomPanel.OUTPUT_POLYNOM, DIVISION_FAIL, Color.RED);
-            appView.setTitleMessage(PolynomPanel.OUTPUT_POLYNOM, View.OUTPUT_TITLE);
-            appView.setInput(PolynomPanel.OUTPUT_POLYNOM, "");
-            appModel.clearResultTerm();
-            appModel.clearRemainderTerm();
+        } catch (Exception polynomialEx) {
+            exHandler.catchException(polynomialEx.getMessage(), DIVISION_FAIL);
         }
     }
 }

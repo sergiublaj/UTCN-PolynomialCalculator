@@ -49,7 +49,7 @@ public class View extends JFrame {
 
     private void setUpFrame() {
         // DOAR PT AL DOILEA MONITOR
-        //this.setLocation(2300, 250);
+        this.setLocation(2300, 250);
 
         this.setMinimumSize(new Dimension(APP_WIDTH, APP_HEIGHT));
         this.setResizable(false);
@@ -84,7 +84,7 @@ public class View extends JFrame {
     }
 
     private void addAuthorInfo() {
-        JLabel shortInfo = new JLabel("<html>Ver: 1.13_21.44<br>" +
+        JLabel shortInfo = new JLabel("<html>Ver: 1.14_12.43<br>" +
                 "@ author Blaj Sergiu<br>" +
                 "@ group 30225</html>");
         shortInfo.setFont(new Font("JetBrains Mono", Font.PLAIN, 15));

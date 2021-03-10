@@ -78,6 +78,7 @@ public class PolynomialInterpreter {
                     result += Math.abs(Math.floor(mIterator.getCoefficient() * 100) / 100);
                 }
             }
+
             if (mIterator.getExponent() != 1 && mIterator.getExponent() != 0 && mIterator.getExponent() > 0) {
                 result += "x^" + (int) mIterator.getExponent();
             } else if (mIterator.getExponent() != 1 && mIterator.getExponent() != 0 && mIterator.getExponent() < 0) {

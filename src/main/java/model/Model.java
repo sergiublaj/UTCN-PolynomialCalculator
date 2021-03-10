@@ -14,15 +14,8 @@ public class Model {
     public void addPolynomials() {
         this.swapOperandsIfNeeded();
         this.clearResultTerm();
-        if(firstOperand.getMonomialList().isEmpty()) {
-            resultTerm = secondOperand;
-            return;
-        } else if(secondOperand.getMonomialList().isEmpty()) {
-            resultTerm = firstOperand;
-            return;
-        }
-        resultTerm = firstOperand;
-        for(Monomial secondIt : secondOperand.getMonomialList()) {
+        this.chekForNullOperands();
+        for (Monomial secondIt : secondOperand.getMonomialList()) {
             resultTerm.addMonomialToList(secondIt);
         }
         PolynomialInterpreter.sortByExponents(resultTerm);
@@ -32,19 +25,23 @@ public class Model {
     public void subtractPolynomials() {
         this.swapOperandsIfNeeded();
         this.clearResultTerm();
-        if(firstOperand.getMonomialList().isEmpty()) {
-            resultTerm = secondOperand;
-            return;
-        } else if(secondOperand.getMonomialList().isEmpty()) {
-            resultTerm = firstOperand;
-            return;
-        }
-        resultTerm = firstOperand;
-        for(Monomial secondIt : secondOperand.getMonomialList()) {
+        this.chekForNullOperands();
+        for (Monomial secondIt : secondOperand.getMonomialList()) {
             resultTerm.addMonomialToList(new Monomial(-secondIt.getCoefficient(), secondIt.getExponent()));
         }
         PolynomialInterpreter.sortByExponents(resultTerm);
         PolynomialInterpreter.reduceCoefficients(resultTerm);
+    }
+
+    private void chekForNullOperands() {
+        if (firstOperand.getMonomialList().isEmpty()) {
+            resultTerm = secondOperand;
+            return;
+        } else if (secondOperand.getMonomialList().isEmpty()) {
+            resultTerm = firstOperand;
+            return;
+        }
+        resultTerm = firstOperand;
     }
 
     public void multiplyPolynomials() {
@@ -66,11 +63,11 @@ public class Model {
         remainderTerm = firstOperand;
         while (!remainderTerm.getMonomialList().isEmpty() && remainderTerm.getMonomialList().get(0).getExponent() >= secondOperand.getMonomialList().get(0).getExponent()) {
             Monomial divisionRes = new Monomial();
-            divisionRes.setCoefficient(remainderTerm.getMonomialList().get(0).getCoefficient()/secondOperand.getMonomialList().get(0).getCoefficient());
-            divisionRes.setExponent(remainderTerm.getMonomialList().get(0).getExponent()-secondOperand.getMonomialList().get(0).getExponent());
+            divisionRes.setCoefficient(remainderTerm.getMonomialList().get(0).getCoefficient() / secondOperand.getMonomialList().get(0).getCoefficient());
+            divisionRes.setExponent(remainderTerm.getMonomialList().get(0).getExponent() - secondOperand.getMonomialList().get(0).getExponent());
             resultTerm.addMonomialToList(divisionRes);
             Polynomial multiplicationRes = new Polynomial();
-            for(Monomial secondIt : secondOperand.getMonomialList()) {
+            for (Monomial secondIt : secondOperand.getMonomialList()) {
                 Monomial result = new Monomial();
                 result.setCoefficient(secondIt.getCoefficient() * divisionRes.getCoefficient());
                 result.setExponent(secondIt.getExponent() + divisionRes.getExponent());
@@ -79,7 +76,7 @@ public class Model {
             PolynomialInterpreter.sortByExponents(multiplicationRes);
             PolynomialInterpreter.reduceCoefficients(multiplicationRes);
             Polynomial subtractionRes = remainderTerm;
-            for(Monomial multiplyIt : multiplicationRes.getMonomialList()) {
+            for (Monomial multiplyIt : multiplicationRes.getMonomialList()) {
                 subtractionRes.addMonomialToList(new Monomial(-multiplyIt.getCoefficient(), multiplyIt.getExponent()));
             }
             PolynomialInterpreter.sortByExponents(subtractionRes);
@@ -128,7 +125,6 @@ public class Model {
     public void setSecondOperand(Polynomial newPolynomial) {
         this.secondOperand = newPolynomial;
     }
-
 
     public void clearResultTerm() {
         this.resultTerm = new Polynomial();
