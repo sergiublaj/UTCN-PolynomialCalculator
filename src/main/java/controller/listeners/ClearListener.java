@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ClearListener implements ActionListener {
+    private static final String CLEAR_INPUT = "Input cleared successfully!";
 
     private final Model appModel;
     private final View appView;
@@ -23,7 +24,8 @@ public class ClearListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         appView.setInput(fieldNb, "");
-        appView.setAlertMessage(fieldNb, "Input cleared successfully", Color.BLUE);
+        appView.setAlertMessage(fieldNb, CLEAR_INPUT, Color.BLUE);
+
         if(fieldNb == PolynomPanel.FIRST_POLYNOM) {
             appModel.setFirstOperand(null);
         } else if(fieldNb == PolynomPanel.SECOND_POLYNOM) {

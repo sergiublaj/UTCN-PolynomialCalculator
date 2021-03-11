@@ -1,8 +1,6 @@
 package controller.listeners;
 
-import model.PolynomialInterpreter;
-import model.Model;
-import model.Polynomial;
+import model.*;
 import validator.ExceptionHandler;
 import view.PolynomPanel;
 import view.View;
@@ -29,20 +27,24 @@ public class IntegrationListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
-            Polynomial firstPolynomial = PolynomialInterpreter.parseString(appView.getInput(PolynomPanel.FIRST_POLYNOM));
-            appModel.setSecondOperand(null);
-            appView.setInput(PolynomPanel.SECOND_POLYNOM, "");
-            String parsedOutput;
-            if(firstPolynomial.getMonomialList().size() == 1 && firstPolynomial.getMonomialList().get(0).getCoefficient() == 1 && firstPolynomial.getMonomialList().get(0).getExponent() == -1) {
-                parsedOutput = "ln(x)+C";
-            } else {
-                appModel.setFirstOperand(firstPolynomial);
-                appModel.integratePolynomial();
-                Polynomial outputPolynomial = appModel.getResultTerm();
-                parsedOutput = PolynomialInterpreter.parseValue(outputPolynomial);
-                parsedOutput += "+C";
+            IntegerPolynomial firstPolynomial = PolynomialInterpreter.parseString(appView.getInput(PolynomPanel.FIRST_POLYNOM));
+
+            if(firstPolynomial.getMonomialList().size() == 1 && firstPolynomial.getMonomialList().get(0).getExponent() == -1) {
+                appView.setTitleMessage(PolynomPanel.OUTPUT_POLYNOM, INTEGRATION_TITLE);
+                appView.setInput(PolynomPanel.OUTPUT_POLYNOM, firstPolynomial.getMonomialList().get(0).getCoefficient() + "ln(x)+C");
+                appView.setAlertMessage(PolynomPanel.OUTPUT_POLYNOM, INTEGRATION_SUCCESS, Color.GREEN);
+                return;
             }
+
+            appModel.setFirstOperand(firstPolynomial);
+            appModel.setSecondOperand(null);
+            appModel.integratePolynomial();
+
+            DoublePolynomial outputPolynomial = appModel.getResultTerm();
+            String parsedOutput = PolynomialInterpreter.parseValue(outputPolynomial) + "+C";
+
             appView.setTitleMessage(PolynomPanel.OUTPUT_POLYNOM, INTEGRATION_TITLE);
+            appView.setInput(PolynomPanel.SECOND_POLYNOM, "");
             appView.setInput(PolynomPanel.OUTPUT_POLYNOM, parsedOutput);
             appView.setAlertMessage(PolynomPanel.OUTPUT_POLYNOM, INTEGRATION_SUCCESS, Color.GREEN);
         } catch (Exception polynomialEx) {

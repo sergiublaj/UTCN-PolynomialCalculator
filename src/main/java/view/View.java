@@ -84,7 +84,7 @@ public class View extends JFrame {
     }
 
     private void addAuthorInfo() {
-        JLabel shortInfo = new JLabel("<html>Ver: 1.14_12.43<br>" +
+        JLabel shortInfo = new JLabel("<html>Ver: 1.15_16.32<br>" +
                 "@ author Blaj Sergiu<br>" +
                 "@ group 30225</html>");
         shortInfo.setFont(new Font("JetBrains Mono", Font.PLAIN, 15));

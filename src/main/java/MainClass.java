@@ -1,14 +1,11 @@
 import controller.Controller;
-import model.Model;
+import model.*;
 import view.View;
 
 // TODO
-// JUnit
 // Documentatie
-// de reorganizat codul duplicat
-// maxim 30 linii!!
-// Double si Integer monomial -> generic?
-//
+// maxim 30 linii la print!!
+
 // BUGS
 // 5 * 8
 

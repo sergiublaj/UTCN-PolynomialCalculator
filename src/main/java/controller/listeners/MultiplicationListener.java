@@ -1,8 +1,6 @@
 package controller.listeners;
 
-import model.PolynomialInterpreter;
-import model.Model;
-import model.Polynomial;
+import model.*;
 import validator.ExceptionHandler;
 import view.PolynomPanel;
 import view.View;
@@ -29,13 +27,15 @@ public class MultiplicationListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
-            Polynomial firstPolynomial = PolynomialInterpreter.parseString(appView.getInput(PolynomPanel.FIRST_POLYNOM));
-            Polynomial secondPolynomial = PolynomialInterpreter.parseString(appView.getInput(PolynomPanel.SECOND_POLYNOM));
+            IntegerPolynomial firstPolynomial = PolynomialInterpreter.parseString(appView.getInput(PolynomPanel.FIRST_POLYNOM));
+            IntegerPolynomial secondPolynomial = PolynomialInterpreter.parseString(appView.getInput(PolynomPanel.SECOND_POLYNOM));
+
             appModel.setFirstOperand(firstPolynomial);
             appModel.setSecondOperand(secondPolynomial);
             appModel.multiplyPolynomials();
-            Polynomial outputPolynomial = appModel.getResultTerm();
+            DoublePolynomial outputPolynomial = appModel.getResultTerm();
             String parsedOutput = PolynomialInterpreter.parseValue(outputPolynomial);
+
             appView.setTitleMessage(PolynomPanel.OUTPUT_POLYNOM, MULTIPLICATION_TITLE);
             appView.setInput(PolynomPanel.OUTPUT_POLYNOM, parsedOutput);
             appView.setAlertMessage(PolynomPanel.OUTPUT_POLYNOM, MULTIPLICATION_SUCCESS, Color.GREEN);

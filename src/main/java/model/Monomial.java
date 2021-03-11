@@ -1,32 +1,30 @@
 package model;
 
-public class Monomial {
-    private double coefficient;
-    private double exponent;
+public abstract class Monomial<N extends Number> {
+    private N coefficient;
+    private N exponent;
 
     public Monomial() {
-        this.coefficient = 0;
-        this.exponent = 0;
     }
 
-    public Monomial(double coefficient, double exponent) {
+    public Monomial(N coefficient, N power) {
         this.coefficient = coefficient;
-        this.exponent = exponent;
+        this.exponent = power;
     }
 
-    public double getCoefficient() {
-        return coefficient;
+    public N getCoefficient() {
+        return this.coefficient;
     }
 
-    public void setCoefficient(double coefficient) {
+    public void setCoefficient(N coefficient) {
         this.coefficient = coefficient;
     }
 
-    public double getExponent() {
-        return exponent;
+    public N getExponent() {
+        return this.exponent;
     }
 
-    public void setExponent(double exponent) {
-        this.exponent = exponent;
+    public void setExponent(N power) {
+        this.exponent = power;
     }
 }

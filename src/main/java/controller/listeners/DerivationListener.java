@@ -1,8 +1,6 @@
 package controller.listeners;
 
-import model.PolynomialInterpreter;
-import model.Model;
-import model.Polynomial;
+import model.*;
 import validator.ExceptionHandler;
 import view.PolynomPanel;
 import view.View;
@@ -29,14 +27,16 @@ public class DerivationListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
-            Polynomial firstPolynomial = PolynomialInterpreter.parseString(appView.getInput(PolynomPanel.FIRST_POLYNOM));
+            IntegerPolynomial firstPolynomial = PolynomialInterpreter.parseString(appView.getInput(PolynomPanel.FIRST_POLYNOM));
             appModel.setFirstOperand(firstPolynomial);
             appModel.setSecondOperand(null);
-            appView.setInput(PolynomPanel.SECOND_POLYNOM, "");
             appModel.derivePolynomial();
-            Polynomial outputPolynomial = appModel.getResultTerm();
+
+            DoublePolynomial outputPolynomial = appModel.getResultTerm();
             String parsedOutput = PolynomialInterpreter.parseValue(outputPolynomial);
+
             appView.setTitleMessage(PolynomPanel.OUTPUT_POLYNOM, DERIVATION_TITLE);
+            appView.setInput(PolynomPanel.SECOND_POLYNOM, "");
             appView.setInput(PolynomPanel.OUTPUT_POLYNOM, parsedOutput);
             appView.setAlertMessage(PolynomPanel.OUTPUT_POLYNOM, DERIVATION_SUCCESS, Color.GREEN);
         } catch (Exception polynomialEx) {

@@ -4,16 +4,16 @@ import validator.EmptyInputException;
 import validator.InvalidInputException;
 
 import java.util.ArrayList;
-import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PolynomialInterpreter {
     private static final String REGEX_MATCHER = "([+-]?\\d*)*?[xX]\\^(-?\\d*)";
     private static final String EXCEPTION_EMPTY_POLYNOM = "Please enter a polynomial!";
     private static final String EXCEPTION_INVALID_POLYNOM = "The form should be: aX^n+bX^n-1+...+z";
 
-    public static Polynomial parseString(String buffer) throws EmptyInputException, InvalidInputException {
-        Polynomial result = new Polynomial();
+    public static IntegerPolynomial parseString(String buffer) throws EmptyInputException, InvalidInputException {
+        IntegerPolynomial result = new IntegerPolynomial();
         if (PolynomialInterpreter.textIsEmpty(buffer)) {
             throw new EmptyInputException(EXCEPTION_EMPTY_POLYNOM);
         }
@@ -24,13 +24,12 @@ public class PolynomialInterpreter {
         Pattern pattern = Pattern.compile(REGEX_MATCHER);
         Matcher matcher = pattern.matcher(buffer);
         while (matcher.find()) {
-            Monomial termFound = new Monomial();
-            termFound.setCoefficient(Double.parseDouble(matcher.group(1)));
-            termFound.setExponent(Double.parseDouble(matcher.group(2)));
+            IntegerMonomial termFound = new IntegerMonomial();
+            termFound.setCoefficient(Integer.parseInt(matcher.group(1)));
+            termFound.setExponent(Integer.parseInt(matcher.group(2)));
             result.addMonomialToList(termFound);
         }
         PolynomialInterpreter.sortByExponents(result);
-        PolynomialInterpreter.reduceCoefficients(result);
         return result;
     }
 
@@ -56,18 +55,18 @@ public class PolynomialInterpreter {
         return !buffer.matches("(" + REGEX_MATCHER + ")*");
     }
 
-    public static String parseValue(Polynomial buffer) {
+    public static String parseValue(DoublePolynomial buffer) {
         if (buffer.getMonomialList().isEmpty()) {
             return "0";
         }
         String result = "";
-        for (Monomial mIterator : buffer.getMonomialList()) {
+        for (Monomial<Double> mIterator : buffer.getMonomialList()) {
             if (mIterator.getCoefficient() == 1 && mIterator.getExponent() == 0) {
-                result += "+" + (int) mIterator.getCoefficient();
+                result += "+" + mIterator.getCoefficient().intValue();
             } else if (mIterator.getCoefficient() == 1 && mIterator.getExponent() != 0) {
                 result += "+";
             } else if (mIterator.getCoefficient() == -1 && mIterator.getExponent() == 0) {
-                result += (int) mIterator.getCoefficient();
+                result += mIterator.getCoefficient().intValue();
             } else if (mIterator.getCoefficient() == -1 && mIterator.getExponent() != 0) {
                 result += "-";
             } else {
@@ -80,9 +79,20 @@ public class PolynomialInterpreter {
             }
 
             if (mIterator.getExponent() != 1 && mIterator.getExponent() != 0 && mIterator.getExponent() > 0) {
-                result += "x^" + (int) mIterator.getExponent();
+                result += "x^";
+                if (mIterator.getExponent() == Math.floor(mIterator.getExponent())) {
+                    result += mIterator.getExponent().intValue();
+                } else {
+                    result += mIterator.getExponent();
+                }
             } else if (mIterator.getExponent() != 1 && mIterator.getExponent() != 0 && mIterator.getExponent() < 0) {
-                result += "x^(" + (int) mIterator.getExponent() + ")";
+                result += "x^)";
+                if (mIterator.getExponent() == Math.floor(mIterator.getExponent())) {
+                    result += mIterator.getExponent().intValue();
+                } else {
+                    result += mIterator.getExponent();
+                }
+                result += ")";
             } else if (mIterator.getExponent() == 1) {
                 result += "x";
             }
@@ -94,16 +104,21 @@ public class PolynomialInterpreter {
         }
     }
 
-    public static void sortByExponents(Polynomial crtPolynomial) {
-        DescendingExponentSort sortExponents = new DescendingExponentSort();
-        crtPolynomial.getMonomialList().sort(sortExponents);
+    public static void sortByExponents(DoublePolynomial doublePolynomial) {
+        DescendingExponentsSort sortExponents = new DescendingExponentsSort();
+        doublePolynomial.getMonomialList().sort(sortExponents);
     }
 
-    public static void reduceCoefficients(Polynomial crtPolynomial) {
-        Monomial mFlag = new Monomial();
-        ArrayList<Monomial> toRemove = new ArrayList<>();
-        for (Monomial mIterator : crtPolynomial.getMonomialList()) {
-            if (mIterator.getExponent() == mFlag.getExponent()) {
+    public static void sortByExponents(IntegerPolynomial intPolynomial) {
+        DescendingExponentsSort sortExponents = new DescendingExponentsSort();
+        intPolynomial.getMonomialList().sort(sortExponents);
+    }
+
+    public static void reduceCoefficients(DoublePolynomial crtPolynomial) {
+        DoubleMonomial mFlag = new DoubleMonomial();
+        ArrayList<DoubleMonomial> toRemove = new ArrayList<>();
+        for (DoubleMonomial mIterator : crtPolynomial.getMonomialList()) {
+            if (mIterator.getExponent().equals(mFlag.getExponent())) {
                 mIterator.setCoefficient(mIterator.getCoefficient() + mFlag.getCoefficient());
                 toRemove.add(mFlag);
             }
