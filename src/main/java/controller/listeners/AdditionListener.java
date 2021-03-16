@@ -1,8 +1,11 @@
 package controller.listeners;
 
 import model.*;
-import validator.ExceptionHandler;
-import view.PolynomPanel;
+import model.polynomial.DoublePolynomial;
+import model.polynomial.IntegerPolynomial;
+import validator.exceptions.ExceptionHandler;
+import validator.PolynomialInterpreter;
+import view.PolynomialPanel;
 import view.View;
 
 import java.awt.*;
@@ -10,9 +13,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class AdditionListener implements ActionListener {
-    private static final String ADDITION_TITLE = "Result of addition is";
-    private static final String ADDITION_FAIL = "Addition operation failed!";
-    private static final String ADDITION_SUCCESS = "Addition operation completed successfully!";
+    public static final String ADDITION_TITLE = "Result of addition is";
+    public static final String ADDITION_FAIL = "Addition operation failed!";
+    public static final String ADDITION_SUCCESS = "Addition operation completed successfully!";
 
     private final Model appModel;
     private final View appView;
@@ -27,8 +30,8 @@ public class AdditionListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
-            IntegerPolynomial firstPolynomial = PolynomialInterpreter.parseString(appView.getInput(PolynomPanel.FIRST_POLYNOM));
-            IntegerPolynomial secondPolynomial = PolynomialInterpreter.parseString(appView.getInput(PolynomPanel.SECOND_POLYNOM));
+            IntegerPolynomial firstPolynomial = PolynomialInterpreter.parseString(appView.getInput(PolynomialPanel.FIRST_POLYNOMIAL));
+            IntegerPolynomial secondPolynomial = PolynomialInterpreter.parseString(appView.getInput(PolynomialPanel.SECOND_POLYNOMIAL));
 
             appModel.setFirstOperand(firstPolynomial);
             appModel.setSecondOperand(secondPolynomial);
@@ -37,9 +40,9 @@ public class AdditionListener implements ActionListener {
             DoublePolynomial outputPolynomial = appModel.getResultTerm();
             String parsedOutput = PolynomialInterpreter.parseValue(outputPolynomial);
 
-            appView.setTitleMessage(PolynomPanel.OUTPUT_POLYNOM, ADDITION_TITLE);
-            appView.setInput(PolynomPanel.OUTPUT_POLYNOM, parsedOutput);
-            appView.setAlertMessage(PolynomPanel.OUTPUT_POLYNOM, ADDITION_SUCCESS, Color.GREEN);
+            appView.setTitleMessage(PolynomialPanel.OUTPUT_POLYNOMIAL, ADDITION_TITLE);
+            appView.setInput(PolynomialPanel.OUTPUT_POLYNOMIAL, parsedOutput);
+            appView.setAlertMessage(PolynomialPanel.OUTPUT_POLYNOMIAL, ADDITION_SUCCESS, Color.GREEN);
         } catch (Exception polynomialEx) {
             exHandler.catchException(polynomialEx.getMessage(), ADDITION_FAIL);
         }

@@ -1,5 +1,10 @@
 package model;
 
+import controller.listeners.*;
+import model.monomial.DoubleMonomial;
+import model.monomial.IntegerMonomial;
+import model.polynomial.DoublePolynomial;
+import model.polynomial.IntegerPolynomial;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -39,7 +44,7 @@ class ModelTest {
         expectedResult.addMonomialToList(new DoubleMonomial(3, 3));
         expectedResult.addMonomialToList(new DoubleMonomial(3, 2));
         expectedResult.addMonomialToList(new DoubleMonomial(7, 0));
-        assertTrue(resultTerm.equalsPolynomial(expectedResult), "Addition operation failed!");
+        assertTrue(resultTerm.equalsPolynomial(expectedResult), AdditionListener.ADDITION_SUCCESS);
     }
 
     @Test
@@ -62,7 +67,7 @@ class ModelTest {
         expectedResult.addMonomialToList(new DoubleMonomial(-2, 2));
         expectedResult.addMonomialToList(new DoubleMonomial(5, 1));
         expectedResult.addMonomialToList(new DoubleMonomial(-2, 0));
-        assertTrue(resultTerm.equalsPolynomial(expectedResult), "Subtraction operation failed!");
+        assertTrue(resultTerm.equalsPolynomial(expectedResult), SubtractionListener.SUBTRACTION_FAIL);
     }
 
     @Test
@@ -84,7 +89,7 @@ class ModelTest {
         expectedResult.addMonomialToList(new DoubleMonomial(2, 3));
         expectedResult.addMonomialToList(new DoubleMonomial(2, 1));
         expectedResult.addMonomialToList(new DoubleMonomial(2, 0));
-        assertTrue(resultTerm.equalsPolynomial(expectedResult), "Multiplication operation failed!");
+        assertTrue(resultTerm.equalsPolynomial(expectedResult), MultiplicationListener.MULTIPLICATION_FAIL);
     }
 
     @Test
@@ -109,7 +114,7 @@ class ModelTest {
         DoublePolynomial expectedRemainder = new DoublePolynomial();
         expectedRemainder.addMonomialToList(new DoubleMonomial(5, 1));
         expectedRemainder.addMonomialToList(new DoubleMonomial(2, 0));
-        assertTrue(resultTerm.equalsPolynomial(expectedResult) && remainderTerm.equalsPolynomial(expectedRemainder), "Multiplication operation failed!");
+        assertTrue(resultTerm.equalsPolynomial(expectedResult) && remainderTerm.equalsPolynomial(expectedRemainder), DivisionListener.DIVISION_FAIL);
     }
 
     @Test
@@ -124,7 +129,7 @@ class ModelTest {
         DoublePolynomial expectedResult = new DoublePolynomial();
         expectedResult.addMonomialToList(new DoubleMonomial(28, 3));
         expectedResult.addMonomialToList(new DoubleMonomial(2, 0));
-        assertTrue(resultTerm.equalsPolynomial(expectedResult), "Derivation operation failed!");
+        assertTrue(resultTerm.equalsPolynomial(expectedResult), DerivationListener.DERIVATION_FAIL);
     }
 
     @Test
@@ -140,6 +145,6 @@ class ModelTest {
         expectedResult.addMonomialToList(new DoubleMonomial(1, 3));
         expectedResult.addMonomialToList(new DoubleMonomial(2, 2));
         expectedResult.addMonomialToList(new DoubleMonomial(3, 1));
-        assertTrue(resultTerm.equalsPolynomial(expectedResult), "Integration operation failed!");
+        assertTrue(resultTerm.equalsPolynomial(expectedResult), IntegrationListener.INTEGRATION_FAIL);
     }
 }

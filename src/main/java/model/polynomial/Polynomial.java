@@ -1,4 +1,4 @@
-package model;
+package model.polynomial;
 
 import java.util.ArrayList;
 

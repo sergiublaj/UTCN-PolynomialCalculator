@@ -1,4 +1,8 @@
-package model;
+package model.polynomial;
+
+import model.monomial.DoubleMonomial;
+import model.monomial.IntegerMonomial;
+import model.monomial.Monomial;
 
 import java.util.ArrayList;
 
@@ -9,7 +13,7 @@ public class DoublePolynomial extends Polynomial<DoubleMonomial> {
 
     public DoublePolynomial(IntegerPolynomial integerPolynomial) {
         for(Monomial<Integer> intMonomial : integerPolynomial.getMonomialList()) {
-            this.monomialList.add(new DoubleMonomial(intMonomial));
+            this.monomialList.add(new DoubleMonomial(intMonomial.getCoefficient(), intMonomial.getExponent()));
         }
     }
 
@@ -18,7 +22,7 @@ public class DoublePolynomial extends Polynomial<DoubleMonomial> {
     }
 
     public void addMonomialToList(IntegerMonomial toAdd) {
-        this.monomialList.add(new DoubleMonomial(toAdd));
+        this.monomialList.add(new DoubleMonomial(toAdd.getCoefficient(), toAdd.getExponent()));
     }
 
     public void addMonomialToList(DoubleMonomial toAdd) {

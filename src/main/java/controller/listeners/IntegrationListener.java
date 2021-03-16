@@ -1,8 +1,11 @@
 package controller.listeners;
 
 import model.*;
-import validator.ExceptionHandler;
-import view.PolynomPanel;
+import model.polynomial.DoublePolynomial;
+import model.polynomial.IntegerPolynomial;
+import validator.exceptions.ExceptionHandler;
+import validator.PolynomialInterpreter;
+import view.PolynomialPanel;
 import view.View;
 
 import java.awt.*;
@@ -10,9 +13,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class IntegrationListener implements ActionListener {
-    private static final String INTEGRATION_TITLE = "Result of integration of first polynomial is:";
-    private static final String INTEGRATION_FAIL = "Integration operation failed!";
-    private static final String INTEGRATION_SUCCESS = "Integration operation completed successfully!";
+    public static final String INTEGRATION_TITLE = "Result of integration of first polynomial is:";
+    public static final String INTEGRATION_FAIL = "Integration operation failed!";
+    public static final String INTEGRATION_SUCCESS = "Integration operation completed successfully!";
 
     private final Model appModel;
     private final View appView;
@@ -27,12 +30,12 @@ public class IntegrationListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
-            IntegerPolynomial firstPolynomial = PolynomialInterpreter.parseString(appView.getInput(PolynomPanel.FIRST_POLYNOM));
+            IntegerPolynomial firstPolynomial = PolynomialInterpreter.parseString(appView.getInput(PolynomialPanel.FIRST_POLYNOMIAL));
 
             if(firstPolynomial.getMonomialList().size() == 1 && firstPolynomial.getMonomialList().get(0).getExponent() == -1) {
-                appView.setTitleMessage(PolynomPanel.OUTPUT_POLYNOM, INTEGRATION_TITLE);
-                appView.setInput(PolynomPanel.OUTPUT_POLYNOM, firstPolynomial.getMonomialList().get(0).getCoefficient() + "ln(x)+C");
-                appView.setAlertMessage(PolynomPanel.OUTPUT_POLYNOM, INTEGRATION_SUCCESS, Color.GREEN);
+                appView.setTitleMessage(PolynomialPanel.OUTPUT_POLYNOMIAL, INTEGRATION_TITLE);
+                appView.setInput(PolynomialPanel.OUTPUT_POLYNOMIAL, firstPolynomial.getMonomialList().get(0).getCoefficient() + "ln(x)+C");
+                appView.setAlertMessage(PolynomialPanel.OUTPUT_POLYNOMIAL, INTEGRATION_SUCCESS, Color.GREEN);
                 return;
             }
 
@@ -43,10 +46,10 @@ public class IntegrationListener implements ActionListener {
             DoublePolynomial outputPolynomial = appModel.getResultTerm();
             String parsedOutput = PolynomialInterpreter.parseValue(outputPolynomial) + "+C";
 
-            appView.setTitleMessage(PolynomPanel.OUTPUT_POLYNOM, INTEGRATION_TITLE);
-            appView.setInput(PolynomPanel.SECOND_POLYNOM, "");
-            appView.setInput(PolynomPanel.OUTPUT_POLYNOM, parsedOutput);
-            appView.setAlertMessage(PolynomPanel.OUTPUT_POLYNOM, INTEGRATION_SUCCESS, Color.GREEN);
+            appView.setTitleMessage(PolynomialPanel.OUTPUT_POLYNOMIAL, INTEGRATION_TITLE);
+            appView.setInput(PolynomialPanel.SECOND_POLYNOMIAL, "");
+            appView.setInput(PolynomialPanel.OUTPUT_POLYNOMIAL, parsedOutput);
+            appView.setAlertMessage(PolynomialPanel.OUTPUT_POLYNOMIAL, INTEGRATION_SUCCESS, Color.GREEN);
         } catch (Exception polynomialEx) {
             exHandler.catchException(polynomialEx.getMessage(), INTEGRATION_FAIL);
         }

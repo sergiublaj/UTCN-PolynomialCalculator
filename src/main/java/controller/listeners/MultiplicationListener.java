@@ -1,8 +1,11 @@
 package controller.listeners;
 
 import model.*;
-import validator.ExceptionHandler;
-import view.PolynomPanel;
+import model.polynomial.DoublePolynomial;
+import model.polynomial.IntegerPolynomial;
+import validator.exceptions.ExceptionHandler;
+import validator.PolynomialInterpreter;
+import view.PolynomialPanel;
 import view.View;
 
 import java.awt.*;
@@ -10,9 +13,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MultiplicationListener implements ActionListener {
-    private static final String MULTIPLICATION_TITLE = "Result of multiplication is:";
-    private static final String MULTIPLICATION_FAIL = "Multiplication operation failed!";
-    private static final String MULTIPLICATION_SUCCESS = "Multiplication operation completed successfully!";
+    public static final String MULTIPLICATION_TITLE = "Result of multiplication is:";
+    public static final String MULTIPLICATION_FAIL = "Multiplication operation failed!";
+    public static final String MULTIPLICATION_SUCCESS = "Multiplication operation completed successfully!";
 
     private final Model appModel;
     private final View appView;
@@ -27,18 +30,19 @@ public class MultiplicationListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
-            IntegerPolynomial firstPolynomial = PolynomialInterpreter.parseString(appView.getInput(PolynomPanel.FIRST_POLYNOM));
-            IntegerPolynomial secondPolynomial = PolynomialInterpreter.parseString(appView.getInput(PolynomPanel.SECOND_POLYNOM));
+            IntegerPolynomial firstPolynomial = PolynomialInterpreter.parseString(appView.getInput(PolynomialPanel.FIRST_POLYNOMIAL));
+            IntegerPolynomial secondPolynomial = PolynomialInterpreter.parseString(appView.getInput(PolynomialPanel.SECOND_POLYNOMIAL));
 
             appModel.setFirstOperand(firstPolynomial);
             appModel.setSecondOperand(secondPolynomial);
             appModel.multiplyPolynomials();
+
             DoublePolynomial outputPolynomial = appModel.getResultTerm();
             String parsedOutput = PolynomialInterpreter.parseValue(outputPolynomial);
 
-            appView.setTitleMessage(PolynomPanel.OUTPUT_POLYNOM, MULTIPLICATION_TITLE);
-            appView.setInput(PolynomPanel.OUTPUT_POLYNOM, parsedOutput);
-            appView.setAlertMessage(PolynomPanel.OUTPUT_POLYNOM, MULTIPLICATION_SUCCESS, Color.GREEN);
+            appView.setTitleMessage(PolynomialPanel.OUTPUT_POLYNOMIAL, MULTIPLICATION_TITLE);
+            appView.setInput(PolynomialPanel.OUTPUT_POLYNOMIAL, parsedOutput);
+            appView.setAlertMessage(PolynomialPanel.OUTPUT_POLYNOMIAL, MULTIPLICATION_SUCCESS, Color.GREEN);
         } catch (Exception polynomialEx) {
             exHandler.catchException(polynomialEx.getMessage(), MULTIPLICATION_FAIL);
         }

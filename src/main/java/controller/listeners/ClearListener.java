@@ -1,7 +1,7 @@
 package controller.listeners;
 
 import model.Model;
-import view.PolynomPanel;
+import view.PolynomialPanel;
 import view.View;
 
 import java.awt.*;
@@ -26,9 +26,9 @@ public class ClearListener implements ActionListener {
         appView.setInput(fieldNb, "");
         appView.setAlertMessage(fieldNb, CLEAR_INPUT, Color.BLUE);
 
-        if(fieldNb == PolynomPanel.FIRST_POLYNOM) {
+        if(fieldNb == PolynomialPanel.FIRST_POLYNOMIAL) {
             appModel.setFirstOperand(null);
-        } else if(fieldNb == PolynomPanel.SECOND_POLYNOM) {
+        } else if(fieldNb == PolynomialPanel.SECOND_POLYNOMIAL) {
             appModel.setSecondOperand(null);
         } else {
             appModel.clearResultTerm();

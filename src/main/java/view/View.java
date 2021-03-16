@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class View extends JFrame {
-
+    public static final String APP_TITLE = "Polynomial calculator";
     public static final String FIRST_TITLE = "Enter first polynomial";
     public static final String SECOND_TITLE = "Enter second polynomial";
     public static final String OUTPUT_TITLE = "Result";
@@ -29,9 +29,9 @@ public class View extends JFrame {
     private JPanel mainPanel;
     private JPanel operationsPanel;
 
-    private PolynomPanel firstPolynom;
-    private PolynomPanel secondPolynom;
-    private PolynomPanel outputPolynom;
+    private PolynomialPanel firstPolynomial;
+    private PolynomialPanel secondPolynomial;
+    private PolynomialPanel outputPolynomial;
 
     private JButton addButton;
     private JButton subtractButton;
@@ -49,11 +49,11 @@ public class View extends JFrame {
 
     private void setUpFrame() {
         // DOAR PT AL DOILEA MONITOR
-        this.setLocation(2300, 250);
+        // this.setLocation(2300, 250);
 
         this.setMinimumSize(new Dimension(APP_WIDTH, APP_HEIGHT));
         this.setResizable(false);
-        this.setTitle("Polynomial calculator");
+        this.setTitle(APP_TITLE);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
@@ -84,7 +84,7 @@ public class View extends JFrame {
     }
 
     private void addAuthorInfo() {
-        JLabel shortInfo = new JLabel("<html>Ver: 1.15_16.32<br>" +
+        JLabel shortInfo = new JLabel("<html>Ver: 1.17_18.55<br>" +
                 "@ author Blaj Sergiu<br>" +
                 "@ group 30225</html>");
         shortInfo.setFont(new Font("JetBrains Mono", Font.PLAIN, 15));
@@ -99,17 +99,17 @@ public class View extends JFrame {
         this.setUpAppPanel();
         this.addAppTitle();
 
-        firstPolynom = new PolynomPanel(FIRST_TITLE);
-        mainPanel.add(firstPolynom);
+        firstPolynomial = new PolynomialPanel(FIRST_TITLE);
+        mainPanel.add(firstPolynomial);
 
-        secondPolynom = new PolynomPanel(SECOND_TITLE);
-        mainPanel.add(secondPolynom);
+        secondPolynomial = new PolynomialPanel(SECOND_TITLE);
+        mainPanel.add(secondPolynomial);
 
         this.addButtonsPanel();
 
-        outputPolynom = new PolynomPanel(OUTPUT_TITLE);
-        outputPolynom.disablePolynomField();
-        mainPanel.add(outputPolynom);
+        outputPolynomial = new PolynomialPanel(OUTPUT_TITLE);
+        outputPolynomial.disablePolynomialField();
+        mainPanel.add(outputPolynomial);
     }
 
     private void setUpAppPanel() {
@@ -119,7 +119,7 @@ public class View extends JFrame {
     }
 
     private void addAppTitle() {
-        JLabel appTitle = new JLabel("POLYNOMIAL CALCULATOR");
+        JLabel appTitle = new JLabel(APP_TITLE.toUpperCase());
         appTitle.setFont(new Font("Impact", Font.BOLD, 50));
         appTitle.setHorizontalAlignment(SwingConstants.CENTER);
         mainPanel.add(appTitle);
@@ -205,52 +205,52 @@ public class View extends JFrame {
     }
 
     public void addClearListener(int fieldNb, ActionListener crtEvent) {
-        if(fieldNb == PolynomPanel.FIRST_POLYNOM) {
-            firstPolynom.getPolynomClear().addActionListener(crtEvent);
-        } else if(fieldNb == PolynomPanel.SECOND_POLYNOM) {
-            secondPolynom.getPolynomClear().addActionListener(crtEvent);
+        if(fieldNb == PolynomialPanel.FIRST_POLYNOMIAL) {
+            firstPolynomial.getPolynomialClear().addActionListener(crtEvent);
+        } else if(fieldNb == PolynomialPanel.SECOND_POLYNOMIAL) {
+            secondPolynomial.getPolynomialClear().addActionListener(crtEvent);
         } else {
-            outputPolynom.getPolynomClear().addActionListener(crtEvent);
+            outputPolynomial.getPolynomialClear().addActionListener(crtEvent);
         }
     }
 
     public void setTitleMessage(int fieldNb, String titleMessage) {
-        if(fieldNb == PolynomPanel.FIRST_POLYNOM) {
-            firstPolynom.setTitleMessage(titleMessage);
-        } else if(fieldNb == PolynomPanel.SECOND_POLYNOM) {
-            secondPolynom.setTitleMessage(titleMessage);
+        if(fieldNb == PolynomialPanel.FIRST_POLYNOMIAL) {
+            firstPolynomial.setTitleMessage(titleMessage);
+        } else if(fieldNb == PolynomialPanel.SECOND_POLYNOMIAL) {
+            secondPolynomial.setTitleMessage(titleMessage);
         } else {
-            outputPolynom.setTitleMessage(titleMessage);
+            outputPolynomial.setTitleMessage(titleMessage);
         }
     }
 
     public String getInput(int fieldNb) {
-        if(fieldNb == PolynomPanel.FIRST_POLYNOM) {
-            return firstPolynom.getPolynomInput().getText();
-        } else if (fieldNb == PolynomPanel.SECOND_POLYNOM){
-            return secondPolynom.getPolynomInput().getText();
+        if(fieldNb == PolynomialPanel.FIRST_POLYNOMIAL) {
+            return firstPolynomial.getPolynomialInput().getText();
+        } else if (fieldNb == PolynomialPanel.SECOND_POLYNOMIAL){
+            return secondPolynomial.getPolynomialInput().getText();
         } else {
-            return outputPolynom.getPolynomInput().getText();
+            return outputPolynomial.getPolynomialInput().getText();
         }
     }
 
     public void setInput(int fieldNb, String outputMessage) {
-        if(fieldNb == PolynomPanel.FIRST_POLYNOM) {
-            firstPolynom.setPolynomInput(outputMessage);
-        } else if (fieldNb == PolynomPanel.SECOND_POLYNOM) {
-            secondPolynom.setPolynomInput(outputMessage);
+        if(fieldNb == PolynomialPanel.FIRST_POLYNOMIAL) {
+            firstPolynomial.setPolynomialInput(outputMessage);
+        } else if (fieldNb == PolynomialPanel.SECOND_POLYNOMIAL) {
+            secondPolynomial.setPolynomialInput(outputMessage);
         } else {
-            outputPolynom.setPolynomInput(outputMessage);
+            outputPolynomial.setPolynomialInput(outputMessage);
         }
     }
 
     public void setAlertMessage(int fieldNb, String alertMessage, Color alertColor) {
-        if(fieldNb == PolynomPanel.FIRST_POLYNOM) {
-            firstPolynom.setAlertMessage(alertMessage, alertColor);
-        } else if(fieldNb == PolynomPanel.SECOND_POLYNOM) {
-            secondPolynom.setAlertMessage(alertMessage, alertColor);
+        if(fieldNb == PolynomialPanel.FIRST_POLYNOMIAL) {
+            firstPolynomial.setAlertMessage(alertMessage, alertColor);
+        } else if(fieldNb == PolynomialPanel.SECOND_POLYNOMIAL) {
+            secondPolynomial.setAlertMessage(alertMessage, alertColor);
         } else {
-            outputPolynom.setAlertMessage(alertMessage, alertColor);
+            outputPolynomial.setAlertMessage(alertMessage, alertColor);
         }
     }
 }

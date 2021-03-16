@@ -2,8 +2,8 @@ package controller;
 
 import controller.listeners.*;
 import model.Model;
-import validator.ExceptionHandler;
-import view.PolynomPanel;
+import validator.exceptions.ExceptionHandler;
+import view.PolynomialPanel;
 import view.View;
 
 public class Controller {
@@ -23,9 +23,9 @@ public class Controller {
     }
 
     private void addClearListeners() {
-        appView.addClearListener(PolynomPanel.FIRST_POLYNOM, new ClearListener(appModel, appView, PolynomPanel.FIRST_POLYNOM));
-        appView.addClearListener(PolynomPanel.SECOND_POLYNOM, new ClearListener(appModel, appView, PolynomPanel.SECOND_POLYNOM));
-        appView.addClearListener(PolynomPanel.OUTPUT_POLYNOM, new ClearListener(appModel, appView, PolynomPanel.OUTPUT_POLYNOM));
+        appView.addClearListener(PolynomialPanel.FIRST_POLYNOMIAL, new ClearListener(appModel, appView, PolynomialPanel.FIRST_POLYNOMIAL));
+        appView.addClearListener(PolynomialPanel.SECOND_POLYNOMIAL, new ClearListener(appModel, appView, PolynomialPanel.SECOND_POLYNOMIAL));
+        appView.addClearListener(PolynomialPanel.OUTPUT_POLYNOMIAL, new ClearListener(appModel, appView, PolynomialPanel.OUTPUT_POLYNOMIAL));
     }
 
     private void addOperationListeners() {

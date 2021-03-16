@@ -1,6 +1,6 @@
-package model;
+package model.monomial;
 
-public class IntegerMonomial extends Monomial<Integer>{
+public class IntegerMonomial extends Monomial<Integer> {
 
     public IntegerMonomial() {
         super();

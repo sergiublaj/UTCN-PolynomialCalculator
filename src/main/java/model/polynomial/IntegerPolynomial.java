@@ -1,4 +1,6 @@
-package model;
+package model.polynomial;
+
+import model.monomial.IntegerMonomial;
 
 import java.util.ArrayList;
 

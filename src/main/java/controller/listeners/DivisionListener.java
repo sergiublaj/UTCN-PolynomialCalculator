@@ -1,8 +1,11 @@
 package controller.listeners;
 
 import model.*;
-import validator.ExceptionHandler;
-import view.PolynomPanel;
+import model.polynomial.DoublePolynomial;
+import model.polynomial.IntegerPolynomial;
+import validator.exceptions.ExceptionHandler;
+import validator.PolynomialInterpreter;
+import view.PolynomialPanel;
 import view.View;
 
 import java.awt.*;
@@ -10,10 +13,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class DivisionListener implements ActionListener {
-    private static final String DIVISION_TITLE = "Result of division is:";
-    private static final String DIVISION_FAIL = "Division operation failed!";
-    private static final String DIVISION_SUCCESS = "Division operation completed successfully!";
-    private static final String DIVISION_ZERO = "Division by zero error!";
+    public static final String DIVISION_TITLE = "Result of division is:";
+    public static final String DIVISION_FAIL = "Division operation failed!";
+    public static final String DIVISION_SUCCESS = "Division operation completed successfully!";
+    public static final String DIVISION_ZERO = "Division by zero error!";
 
     private final Model appModel;
     private final View appView;
@@ -28,13 +31,13 @@ public class DivisionListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
-            IntegerPolynomial firstPolynomial = PolynomialInterpreter.parseString(appView.getInput(PolynomPanel.FIRST_POLYNOM));
-            IntegerPolynomial secondPolynomial = PolynomialInterpreter.parseString(appView.getInput(PolynomPanel.SECOND_POLYNOM));
+            IntegerPolynomial firstPolynomial = PolynomialInterpreter.parseString(appView.getInput(PolynomialPanel.FIRST_POLYNOMIAL));
+            IntegerPolynomial secondPolynomial = PolynomialInterpreter.parseString(appView.getInput(PolynomialPanel.SECOND_POLYNOMIAL));
 
-            if(secondPolynomial.getMonomialList().isEmpty()) {
-                appView.setTitleMessage(PolynomPanel.OUTPUT_POLYNOM, DIVISION_TITLE);
-                appView.setInput(PolynomPanel.OUTPUT_POLYNOM, DIVISION_ZERO);
-                appView.setAlertMessage(PolynomPanel.OUTPUT_POLYNOM, DIVISION_FAIL, Color.RED);
+            if(secondPolynomial.getMonomialList().size() == 1 && secondPolynomial.getMonomialList().get(0).getCoefficient() == 0) {
+                appView.setTitleMessage(PolynomialPanel.OUTPUT_POLYNOMIAL, DIVISION_TITLE);
+                appView.setInput(PolynomialPanel.OUTPUT_POLYNOMIAL, DIVISION_ZERO);
+                appView.setAlertMessage(PolynomialPanel.OUTPUT_POLYNOMIAL, DIVISION_FAIL, Color.RED);
                 return;
             }
 
@@ -47,9 +50,9 @@ public class DivisionListener implements ActionListener {
             DoublePolynomial secondOutput = appModel.getRemainderTerm();
             String secondParsed = PolynomialInterpreter.parseValue(secondOutput);
 
-            appView.setTitleMessage(PolynomPanel.OUTPUT_POLYNOM, DIVISION_TITLE);
-            appView.setInput(PolynomPanel.OUTPUT_POLYNOM, firstParsed + " (R: " + secondParsed + ")");
-            appView.setAlertMessage(PolynomPanel.OUTPUT_POLYNOM, DIVISION_SUCCESS, Color.GREEN);
+            appView.setTitleMessage(PolynomialPanel.OUTPUT_POLYNOMIAL, DIVISION_TITLE);
+            appView.setInput(PolynomialPanel.OUTPUT_POLYNOMIAL, firstParsed + " (R: " + secondParsed + ")");
+            appView.setAlertMessage(PolynomialPanel.OUTPUT_POLYNOMIAL, DIVISION_SUCCESS, Color.GREEN);
         } catch (Exception polynomialEx) {
             exHandler.catchException(polynomialEx.getMessage(), DIVISION_FAIL);
         }

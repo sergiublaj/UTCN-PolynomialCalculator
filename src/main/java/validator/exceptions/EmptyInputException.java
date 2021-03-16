@@ -1,4 +1,4 @@
-package validator;
+package validator.exceptions;
 
 public class EmptyInputException extends Exception {
     public EmptyInputException(String message) {

@@ -1,4 +1,4 @@
-package model;
+package model.monomial;
 
 public class DoubleMonomial extends Monomial<Double> {
 
@@ -12,10 +12,6 @@ public class DoubleMonomial extends Monomial<Double> {
 
     public DoubleMonomial(Integer coefficient, Integer exponent) {
         super(coefficient.doubleValue(), exponent.doubleValue());
-    }
-
-    public DoubleMonomial(Monomial<?> crtMonomial) {
-        super(crtMonomial.getCoefficient().doubleValue(), crtMonomial.getExponent().doubleValue());
     }
 
     public Double getCoefficient() {

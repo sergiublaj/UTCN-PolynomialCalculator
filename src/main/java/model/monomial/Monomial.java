@@ -1,4 +1,4 @@
-package model;
+package model.monomial;
 
 public abstract class Monomial<N extends Number> {
     private N coefficient;
