@@ -80,6 +80,8 @@ public class Model {
             PolynomialEvaluator.sortByExponents(remainderTerm);
             PolynomialEvaluator.reduceCoefficients(remainderTerm);
         }
+        PolynomialEvaluator.sortByExponents(resultTerm);
+        PolynomialEvaluator.reduceCoefficients(resultTerm);
     }
 
     public void derivePolynomial() {
