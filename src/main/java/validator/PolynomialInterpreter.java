@@ -11,7 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class PolynomialInterpreter {
-    private static final String REGEX_MATCHER = "([+-]?\\d*)*?[xX]\\^(-?\\d*)";
+    private static final String REGEX_MATCHER = "([+-]?\\d*)[*]?x\\^([-]?\\d*)";
     private static final String EXCEPTION_EMPTY_POLYNOMIAL = "Please enter a polynomial!";
     private static final String EXCEPTION_INVALID_POLYNOMIAL = "The form should be: aX^n+bX^n-1+...+z";
 
@@ -41,13 +41,12 @@ public class PolynomialInterpreter {
     // Patternul va recunoaste primul numar ca fiind coeficientul, iar al doilea, exponentul
     private static String stringToPolynomialString(String buffer) {
         buffer = buffer.replace("X", "x");
-        buffer = buffer.replace("*", "");
         buffer = buffer.replace(" ", "");
         buffer = buffer.replaceAll("([+-])x", "$11x");
         buffer = buffer.replaceAll("(?<!.)x", "1x");
         buffer = buffer.replaceAll("x([+-])", "x^1$1");
         buffer = buffer.replaceAll("x(?!.)", "x^1");
-        buffer = buffer.replaceAll("(?<!\\^-?)(\\d+)(?=[+-]|$)", "$1x^0");
+        buffer = buffer.replaceAll("(?<!\\^[-]?)(\\d+)(?=[+-]|$)", "$1x^0");
         return buffer;
     }
 
