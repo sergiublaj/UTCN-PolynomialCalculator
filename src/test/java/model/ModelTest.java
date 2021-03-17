@@ -44,7 +44,7 @@ class ModelTest {
         expectedResult.addMonomialToList(new DoubleMonomial(3, 3));
         expectedResult.addMonomialToList(new DoubleMonomial(3, 2));
         expectedResult.addMonomialToList(new DoubleMonomial(7, 0));
-        assertTrue(resultTerm.equalsPolynomial(expectedResult), AdditionListener.ADDITION_SUCCESS);
+        assertTrue(resultTerm.equalsPolynomial(expectedResult), AdditionListener.ADDITION_FAIL);
     }
 
     @Test
