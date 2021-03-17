@@ -29,12 +29,21 @@ public class DoublePolynomial extends Polynomial<DoubleMonomial> {
         this.monomialList.add(toAdd);
     }
 
+    public boolean containsMonomial(DoubleMonomial toCheck) {
+        for(DoubleMonomial mIterator : this.getMonomialList()) {
+            if (mIterator.equalsMonomial(toCheck)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean equalsPolynomial(DoublePolynomial toEvaluate) {
         if(this.getMonomialList().size() != toEvaluate.getMonomialList().size()) {
             return false;
         } else {
-            for(int i = 0; i < this.getMonomialList().size(); i++) {
-                if(!this.getMonomialList().get(i).equalsMonomial(toEvaluate.getMonomialList().get(i))) {
+            for (DoubleMonomial mIterator : this.getMonomialList()) {
+                if(!toEvaluate.containsMonomial(mIterator)) {
                     return false;
                 }
             }

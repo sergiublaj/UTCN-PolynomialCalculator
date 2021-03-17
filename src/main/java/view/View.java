@@ -48,6 +48,9 @@ public class View extends JFrame {
     }
 
     private void setUpFrame() {
+        // DOAR PT AL DOILEA MONITOR
+        this.setLocation(2350, 250);
+
         this.setMinimumSize(new Dimension(APP_WIDTH, APP_HEIGHT));
         this.setResizable(false);
         this.setTitle(APP_TITLE);
